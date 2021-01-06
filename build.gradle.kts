@@ -26,6 +26,8 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-ui:1.5.0")
     implementation("org.springdoc:springdoc-openapi-data-rest:1.5.0")
     implementation("org.springdoc:springdoc-openapi-kotlin:1.5.0")
+    implementation("io.github.microutils:kotlin-logging:2.0.4")
+    implementation("de.grundid.opendatalab:geojson-jackson:1.14")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
