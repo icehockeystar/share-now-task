@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.data.geo.Point
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.geo.GeoJsonPolygon
+import org.springframework.data.mongodb.core.index.GeospatialIndex
 import java.time.Instant.now
 
 @Configuration
@@ -29,7 +30,12 @@ class MongoConfig {
         if (!mongoTemplate.collectionExists(RelocationZoneDocument::class.java)) {
             mongoTemplate.createCollection(RelocationZoneDocument::class.java)
             importRelocationZones(mongoTemplate)
+
+            val geometryIndex = GeospatialIndex(DumpedRelocationZone::geometry.name)
+            mongoTemplate.indexOps(RelocationZoneDocument::class.java).ensureIndex(geometryIndex)
         }
+
+        logger.info { "Collections have been successfully initialised." }
     }
 
     fun importRelocationZones(mongoTemplate: MongoTemplate) {
