@@ -1,19 +1,21 @@
-package org.rtu.sharenow.carspolygons.config;
+package org.rtu.sharenow.carspolygons.config
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import mu.KLogging
 import org.geojson.GeoJsonObject
-import org.rtu.sharenow.carspolygons.mongo.MongoProtocol
+import org.geojson.LngLatAlt
+import org.geojson.Polygon
 import org.rtu.sharenow.carspolygons.mongo.MongoProtocol.RelocationZoneDocument
 import org.springframework.boot.CommandLineRunner
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.data.geo.Point
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.geo.GeoJsonPolygon
+import java.time.Instant.now
 
 @Configuration
 class MongoConfig {
@@ -24,27 +26,37 @@ class MongoConfig {
         CommandLineRunner { createCollections(mongoTemplate) }
 
     fun createCollections(mongoTemplate: MongoTemplate) {
-        importRelocationZones(mongoTemplate)
-
         if (!mongoTemplate.collectionExists(RelocationZoneDocument::class.java)) {
             mongoTemplate.createCollection(RelocationZoneDocument::class.java)
-
+            importRelocationZones(mongoTemplate)
         }
     }
 
     fun importRelocationZones(mongoTemplate: MongoTemplate) {
-        this::class.java.getResource("/data/polygons.json").openStream().use {
-            val dumpedPolygons = jacksonObjectMapper().readValue<List<DumpedPolygon>>(it)
-            logger.info { dumpedPolygons }
+        this::class.java.getResource("/data/polygons.json").openStream().use { inputStream ->
+            val dumpedPolygons = jacksonObjectMapper().readValue<List<DumpedRelocationZone>>(inputStream)
+
+            dumpedPolygons.forEach {
+                mongoTemplate.insert(asRelocationZoneDocument(it))
+            }
         }
+    }
 
+    private fun asRelocationZoneDocument(it: DumpedRelocationZone): RelocationZoneDocument {
+        val dumpedPolygon = it.geometry as Polygon
+        val exteriorRing = dumpedPolygon.exteriorRing
 
-        //mongoTemplate.insert(RelocationZoneDocument("test", now(), null))
+        return RelocationZoneDocument(it.id, now(), asGeoJsonPolygon(exteriorRing))
+    }
+
+    private fun asGeoJsonPolygon(exteriorRing: List<LngLatAlt>): GeoJsonPolygon {
+        val points = exteriorRing.map { Point(it.longitude, it.latitude) }
+        return GeoJsonPolygon(points)
     }
 }
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class DumpedPolygon(
+data class DumpedRelocationZone(
     @JsonProperty("_id")
     val id: String,
     @JsonProperty("geometry")
