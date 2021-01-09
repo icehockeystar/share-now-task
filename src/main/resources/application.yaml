@@ -1,2 +1,5 @@
 spring.data.mongodb:
   uri: mongodb://root:password@localhost:27017/share-now?replicaSet=replicaset&authSource=admin
+
+challenge-service:
+  base-url: http://localhost:3000
