@@ -14,6 +14,6 @@ class CarsService(
     }
 
     fun storeCarLocations(cars: List<Car>) {
-        TODO()
+        carsRepository.storeCarLocations(cars)
     }
 }

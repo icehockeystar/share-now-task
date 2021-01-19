@@ -1,5 +1,6 @@
 package org.rtu.sharenow.carspolygons.mongo
 
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint
 import org.springframework.data.mongodb.core.geo.GeoJsonPolygon
 import org.springframework.data.mongodb.core.mapping.Document
 import java.time.Instant
@@ -10,5 +11,11 @@ class MongoProtocol {
         val id: String,
         val createdAt: Instant,
         val polygon: GeoJsonPolygon?
+    )
+
+    @Document("cars")
+    data class CarDocument(
+        val vin: String,
+        val location: GeoJsonPoint
     )
 }
