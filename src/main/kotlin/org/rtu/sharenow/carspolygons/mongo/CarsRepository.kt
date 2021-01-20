@@ -44,7 +44,7 @@ class CarsRepository(
         }
 
         if (newLocation.longitude.toDouble() != car.location.x || newLocation.latitude.toDouble() != car.location.y) {
-            logger.info { "Successfully update car (vin: $vin) location: ${car.location} -> $newLocation" }
+            logger.info { "Successfully updated car (vin: $vin) location: ${car.location} -> $newLocation" }
         }
     }
 }
