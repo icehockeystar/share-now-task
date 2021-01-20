@@ -21,8 +21,8 @@ class CarsRepository(
 ) {
     companion object : KLogging()
 
-    fun getCarsInPolygon(polygonId: PolygonId) {
-        TODO("Not yet implemented")
+    fun getCarsInPolygon(polygonId: PolygonId): List<CarDocument> {
+        TODO()
     }
 
     fun storeCarLocations(cars: List<Car>) {
