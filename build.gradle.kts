@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "1.4.21"
     kotlin("plugin.spring") version "1.4.21"
-    id("org.springframework.boot") version "2.4.1"
+    id("org.springframework.boot") version "2.4.2"
     id("io.spring.dependency-management") version "1.0.10.RELEASE"
     id("org.jlleitschuh.gradle.ktlint-idea") version "9.4.1"
 }
@@ -30,6 +30,7 @@ dependencies {
     implementation("io.github.microutils:kotlin-logging:2.0.4")
     implementation("de.grundid.opendatalab:geojson-jackson:1.14")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
 }
 
 tasks.withType<KotlinCompile> {
