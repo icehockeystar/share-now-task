@@ -20,8 +20,8 @@ internal class CarsRepositoryTest {
 
     companion object {
         val VIN = Vin("JH4DA9360PS004131")
-        val LATITUDE = 38.889477
-        val LONGITUDE = -77.050165
+        const val LATITUDE = 38.889477
+        const val LONGITUDE = -77.050165
     }
 
     @Autowired

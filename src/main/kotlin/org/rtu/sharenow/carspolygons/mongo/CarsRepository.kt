@@ -3,12 +3,12 @@ package org.rtu.sharenow.carspolygons.mongo
 import mu.KLogging
 import org.rtu.sharenow.carspolygons.domain.model.entities.Car
 import org.rtu.sharenow.carspolygons.domain.model.values.Location
-import org.rtu.sharenow.carspolygons.domain.model.values.PolygonId
 import org.rtu.sharenow.carspolygons.domain.model.values.Vin
 import org.rtu.sharenow.carspolygons.mongo.MongoProtocol.CarDocument
 import org.springframework.data.mongodb.core.FindAndModifyOptions
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint
+import org.springframework.data.mongodb.core.geo.GeoJsonPolygon
 import org.springframework.data.mongodb.core.query.Criteria.where
 import org.springframework.data.mongodb.core.query.Query.query
 import org.springframework.data.mongodb.core.query.Update.update
@@ -21,8 +21,8 @@ class CarsRepository(
 ) {
     companion object : KLogging()
 
-    fun getCarsInPolygon(polygonId: PolygonId): List<CarDocument> {
-        TODO()
+    fun getCarsInPolygon(polygon: GeoJsonPolygon): List<CarDocument> {
+        return mongoTemplate.find(query(where(CarDocument::location.name).within(polygon)), CarDocument::class.java)
     }
 
     fun storeCarLocations(cars: List<Car>) {

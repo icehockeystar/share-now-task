@@ -27,7 +27,7 @@ class ChallengeService(
         return vehicleResponses?.map {
             Car(
                 vin = Vin(it.vin),
-                location = Location(latitude = it.positionLat, longitude = it.positionLong)
+                location = Location(latitude = it.position.latitude, longitude = it.position.longitude)
             )
         } ?: emptyList()
     }

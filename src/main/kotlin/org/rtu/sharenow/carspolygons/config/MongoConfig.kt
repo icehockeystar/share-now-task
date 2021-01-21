@@ -8,6 +8,7 @@ import mu.KLogging
 import org.geojson.GeoJsonObject
 import org.geojson.LngLatAlt
 import org.geojson.Polygon
+import org.rtu.sharenow.carspolygons.mongo.MongoProtocol.CarDocument
 import org.rtu.sharenow.carspolygons.mongo.MongoProtocol.RelocationZoneDocument
 import org.springframework.boot.CommandLineRunner
 import org.springframework.context.annotation.Bean
@@ -33,6 +34,12 @@ class MongoConfig {
 
             val geometryIndex = GeospatialIndex(DumpedRelocationZone::geometry.name)
             mongoTemplate.indexOps(RelocationZoneDocument::class.java).ensureIndex(geometryIndex)
+        }
+
+        if (!mongoTemplate.collectionExists(CarDocument::class.java)) {
+            mongoTemplate.createCollection(CarDocument::class.java)
+            val geometryIndex = GeospatialIndex(CarDocument::location.name)
+            mongoTemplate.indexOps(CarDocument::class.java).ensureIndex(geometryIndex)
         }
 
         logger.info { "Collections have been successfully initialised." }

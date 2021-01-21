@@ -6,15 +6,23 @@ import org.rtu.sharenow.carspolygons.domain.model.values.PolygonId
 import org.rtu.sharenow.carspolygons.domain.model.values.Vin
 import org.rtu.sharenow.carspolygons.mongo.CarsRepository
 import org.rtu.sharenow.carspolygons.mongo.MongoProtocol
+import org.rtu.sharenow.carspolygons.mongo.RelocationZonesRepository
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 
 @Service
 class CarsService(
-    private val carsRepository: CarsRepository
+    private val carsRepository: CarsRepository,
+    private val relocationZonesRepository: RelocationZonesRepository
 ) {
-    fun getCarsInPolygon(polygonId: PolygonId): List<Car> {
-        val carDocuments = carsRepository.getCarsInPolygon(polygonId)
+    fun getCarsInPolygon(polygonId: PolygonId): List<Car>? {
+        val polygon = relocationZonesRepository.getPolygonById(polygonId.value)
+
+        if (polygon === null) {
+            return null
+        }
+
+        val carDocuments = carsRepository.getCarsInPolygon(polygon)
         return carDocuments.map(this::asCar)
     }
 
