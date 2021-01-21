@@ -47,4 +47,8 @@ class CarsRepository(
             logger.info { "Successfully updated car (vin: $vin) location: ${car.location} -> $newLocation" }
         }
     }
+
+    fun getCarLocationByVin(vin: String): GeoJsonPoint? {
+        return mongoTemplate.findById(vin, CarDocument::class.java)?.location
+    }
 }

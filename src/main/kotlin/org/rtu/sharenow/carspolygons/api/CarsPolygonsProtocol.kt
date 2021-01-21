@@ -9,4 +9,13 @@ class CarsPolygonsProtocol {
             val polygonId: String
         )
     }
+
+    data class PolygonWithVinResponse(
+        val polygonsWithVin: List<CarInPolygon>
+    )
+
+    data class CarInPolygon(
+        val vin: String,
+        val polygonId: String
+    )
 }
