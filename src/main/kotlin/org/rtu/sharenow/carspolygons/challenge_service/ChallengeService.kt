@@ -15,7 +15,7 @@ class ChallengeService(
 ) {
     companion object : KLogging()
 
-    @Scheduled(fixedDelay = 10_000)
+    @Scheduled(fixedDelay = 60_000)
     fun fetchCars() {
         logger.info { "Fetching car positions from challenge service..." }
 
