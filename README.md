@@ -1,4 +1,8 @@
 #Carspolygons
+## Implementation remarks
+- I chose as data base MongoDB because it has support of GeoJson operations out of the box.
+- Challenge API returns always new VINs, I never saw a repeated VIN for which I should have updated cars coordinates.
+- I partially applied principles of Domain Driven Design e.g. entities and values.
 ## Run application locally
 1. Start challenge API and MongoDB locally : `docker-compose up`
 2. to start the carspolygons application run `./gradlew bootRun` or start `CarsPolygonsApplicationKt` class from your favorite IDE.
