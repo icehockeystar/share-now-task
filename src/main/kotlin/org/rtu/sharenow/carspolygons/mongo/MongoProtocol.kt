@@ -12,7 +12,7 @@ class MongoProtocol {
         @Id
         val id: String,
         val createdAt: Instant,
-        val polygon: GeoJsonPolygon?
+        val polygon: GeoJsonPolygon
     )
 
     @Document("cars")

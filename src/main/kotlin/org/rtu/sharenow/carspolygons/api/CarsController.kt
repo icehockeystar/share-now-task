@@ -8,9 +8,13 @@ import org.rtu.sharenow.carspolygons.domain.model.errors.CarsNotFoundException
 import org.rtu.sharenow.carspolygons.domain.model.values.PolygonId
 import org.rtu.sharenow.carspolygons.domain.services.CarsService
 import org.springframework.http.HttpStatus.NOT_FOUND
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.ExceptionHandler
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.ResponseStatus
+import org.springframework.web.bind.annotation.RestController
 
-@Api(value = "/", description = "REST API for cars operations.")
+@Api(value = "/", description = "Cars operations.")
 @RestController
 class CarsController(
     private val carsService: CarsService

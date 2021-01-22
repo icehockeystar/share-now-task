@@ -44,7 +44,7 @@ class CarsService(
         if (polygonsWithCar.isEmpty()) {
             return null
         }
-        
+
         return polygonsWithCar
     }
 }

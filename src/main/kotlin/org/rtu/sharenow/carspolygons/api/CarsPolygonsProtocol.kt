@@ -1,5 +1,7 @@
 package org.rtu.sharenow.carspolygons.api
 
+import org.geojson.GeoJsonObject
+
 class CarsPolygonsProtocol {
     data class CarsInPolygonResponse(
         val carsInPolygon: List<CarInPolygon>
@@ -16,6 +18,6 @@ class CarsPolygonsProtocol {
 
     data class CarInPolygon(
         val vin: String,
-        val polygonId: String
+        val polygon: GeoJsonObject
     )
 }
