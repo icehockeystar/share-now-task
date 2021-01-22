@@ -31,5 +31,6 @@ class CarsController(
 
     @ExceptionHandler(CarsNotFoundException::class)
     @ResponseStatus(NOT_FOUND)
-    fun carsNotFoundHandler() {}
+    fun carsNotFoundHandler() {
+    }
 }

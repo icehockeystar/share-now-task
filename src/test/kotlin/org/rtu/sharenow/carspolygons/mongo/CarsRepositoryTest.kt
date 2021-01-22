@@ -60,9 +60,11 @@ internal class CarsRepositoryTest {
         carsRepository.storeCarLocations(updatedCar)
 
         assertThat(mongoTemplate.findAll(CarDocument::class.java)).hasSize(1)
-            .first().isEqualTo(CarDocument(
-                VIN.value, GeoJsonPoint(45.222, 23.0002)
-            ))
+            .first().isEqualTo(
+                CarDocument(
+                    VIN.value, GeoJsonPoint(45.222, 23.0002)
+                )
+            )
     }
 
     private fun location(latitude: Double, longitude: Double): Location {
