@@ -20,7 +20,7 @@ class SwaggerConfig {
             .apiInfo(getApiInfo())
             .select()
             .apis(RequestHandlerSelectors.basePackage("org.rtu.sharenow.carspolygons.api"))
-            .paths(PathSelectors.regex("/api/v1.*"))
+            .paths(PathSelectors.any())
             .build()
     }
 
