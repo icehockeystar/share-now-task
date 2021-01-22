@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.data.geo.Point
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.geo.GeoJsonPolygon
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexType.GEO_2DSPHERE
 import org.springframework.data.mongodb.core.index.GeospatialIndex
 import java.time.Instant.now
 
@@ -32,13 +33,13 @@ class MongoConfig {
             mongoTemplate.createCollection(RelocationZoneDocument::class.java)
             importRelocationZones(mongoTemplate)
 
-            val geometryIndex = GeospatialIndex(DumpedRelocationZone::geometry.name)
+            val geometryIndex = GeospatialIndex(DumpedRelocationZone::geometry.name).typed(GEO_2DSPHERE)
             mongoTemplate.indexOps(RelocationZoneDocument::class.java).ensureIndex(geometryIndex)
         }
 
         if (!mongoTemplate.collectionExists(CarDocument::class.java)) {
             mongoTemplate.createCollection(CarDocument::class.java)
-            val geometryIndex = GeospatialIndex(CarDocument::location.name)
+            val geometryIndex = GeospatialIndex(CarDocument::location.name).typed(GEO_2DSPHERE)
             mongoTemplate.indexOps(CarDocument::class.java).ensureIndex(geometryIndex)
         }
 
